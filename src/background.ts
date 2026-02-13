@@ -116,6 +116,6 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 
     if (message.type === 'OPEN_DASHBOARD') {
-        chrome.tabs.create({ url: 'index.html' });
+        chrome.tabs.create({ url: 'dashboard.html' });
     }
 });
