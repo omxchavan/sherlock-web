@@ -24,6 +24,9 @@ export class AIService {
       External Requests: ${analysis.externalDomainsCount}
 
       Format the response exactly with these headers:
+      [EXECUTIVE SUMMARY]
+      Provide a single, powerful sentence summarizing the security stance of this site.
+
       [SECURITY SCORE]
       Provide a justification for the final score (0-100).
 

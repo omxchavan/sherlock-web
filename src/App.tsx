@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Shield, Activity, Eye, Globe, ChevronRight, AlertTriangle,
   ShieldCheck, Cpu, Database, Network, Lock, Zap, RefreshCw,
-  Terminal, BarChart3, Settings2
+  Terminal, BarChart3, Settings2, X
 } from 'lucide-react'
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
 import type { ExtensionState, AnalysisResult } from './shared/types'
@@ -16,6 +16,7 @@ const Dashboard = () => {
   });
   const [aiSummary, setAiSummary] = useState<string>('');
   const [loadingAi, setLoadingAi] = useState(false);
+  const [showFullReport, setShowFullReport] = useState(false);
   const [selectedAnalysis, setSelectedAnalysis] = useState<AnalysisResult | null>(null);
 
   useEffect(() => {
@@ -259,31 +260,47 @@ const Dashboard = () => {
                       className="space-y-6"
                     >
                       <div className="space-y-6">
-                        <div className="flex items-center gap-3 text-cyber-green">
-                          <Shield className="w-4 h-4" />
-                          <span className="text-xs font-bold uppercase tracking-widest text-white">Full Security Intelligence Report</span>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3 text-cyber-green">
+                            <Shield className="w-4 h-4" />
+                            <span className="text-xs font-bold uppercase tracking-widest text-white">Security Verdict</span>
+                          </div>
+                          <button
+                            onClick={() => setShowFullReport(true)}
+                            className="text-[10px] font-bold text-cyber-blue hover:text-white transition-colors uppercase tracking-widest bg-cyber-blue/10 px-3 py-1 rounded-full border border-cyber-blue/20"
+                          >
+                            Open Full Dossier
+                          </button>
                         </div>
 
                         <div className="space-y-4">
-                          {aiSummary.split(/\[(.*?)\]/).map((part, i, arr) => {
-                            if (i % 2 === 1) {
-                              const header = part;
-                              const content = arr[i + 1]?.trim();
-                              if (!content) return null;
+                          {(() => {
+                            const sections = aiSummary.split(/\[(.*?)\]/);
+                            const execSummaryIndex = sections.indexOf('EXECUTIVE SUMMARY');
+                            const scoreIndex = sections.indexOf('SECURITY SCORE');
 
-                              return (
-                                <div key={i} className="space-y-2 group">
-                                  <div className="text-[10px] font-black tracking-[0.2em] text-cyber-blue uppercase opacity-70 group-hover:opacity-100 transition-opacity">
-                                    {header}
+                            return (
+                              <div className="space-y-4">
+                                {execSummaryIndex !== -1 && (
+                                  <div className="text-sm text-gray-200 leading-relaxed font-semibold bg-white/[0.03] p-5 rounded-2xl border border-white/5 border-l-4 border-l-cyber-blue shadow-xl">
+                                    "{sections[execSummaryIndex + 1]?.trim()}"
                                   </div>
-                                  <div className="text-sm text-gray-300 leading-relaxed bg-white/[0.03] p-4 rounded-xl border border-white/5 border-l-2 border-l-cyber-blue/30 whitespace-pre-line font-medium">
-                                    {content}
+                                )}
+                                {scoreIndex !== -1 && (
+                                  <div className="flex items-center gap-3 p-3 bg-cyber-blue/5 rounded-xl border border-cyber-blue/10">
+                                    <div className="text-[10px] font-black text-cyber-blue uppercase tracking-widest">Confidence Score</div>
+                                    <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
+                                      <div
+                                        className="h-full bg-cyber-blue shadow-[0_0_10px_rgba(0,240,255,0.5)] transition-all duration-1000"
+                                        style={{ width: (sections[scoreIndex + 1]?.match(/\d+/)?.[0] || '0') + '%' }}
+                                      />
+                                    </div>
+                                    <div className="text-xs font-black text-white">{sections[scoreIndex + 1]?.match(/\d+/)?.[0]}%</div>
                                   </div>
-                                </div>
-                              );
-                            }
-                            return null;
-                          })}
+                                )}
+                              </div>
+                            );
+                          })()}
                         </div>
                       </div>
                       <div className="p-4 rounded-xl bg-cyber-blue/5 border border-cyber-blue/20 flex gap-4">
@@ -436,6 +453,78 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Full Intelligence Dossier Modal */}
+      <AnimatePresence>
+        {showFullReport && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-cyber-black/90 backdrop-blur-xl"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              className="w-full max-w-2xl max-h-[85vh] overflow-hidden glass-panel flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.5)] border-white/20"
+            >
+              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-cyber-blue/20 rounded-lg">
+                    <Shield className="w-5 h-5 text-cyber-blue" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-black uppercase tracking-tighter text-white">Security Intelligence Dossier</h2>
+                    <p className="text-[10px] text-cyber-blue font-bold tracking-[0.2em]">DOMAIN_ANALYSIS: {currentView?.domain}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowFullReport(false)}
+                  className="p-2 hover:bg-white/10 rounded-full transition-colors text-white/50 hover:text-white"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+                {aiSummary.split(/\[(.*?)\]/).map((part, i, arr) => {
+                  if (i % 2 === 1) {
+                    const header = part;
+                    const content = arr[i + 1]?.trim();
+                    if (!content || header === 'EXECUTIVE SUMMARY') return null;
+
+                    return (
+                      <div key={i} className="space-y-4 group">
+                        <div className="flex items-center gap-3">
+                          <div className="h-[1px] flex-1 bg-gradient-to-r from-cyber-blue/50 to-transparent" />
+                          <div className="text-[10px] font-black tracking-[0.3em] text-cyber-blue uppercase">
+                            {header}
+                          </div>
+                          <div className="h-[1px] flex-1 bg-gradient-to-l from-cyber-blue/50 to-transparent" />
+                        </div>
+                        <div className="text-sm text-gray-300 leading-relaxed bg-white/[0.02] p-6 rounded-2xl border border-white/5 font-medium whitespace-pre-line">
+                          {content}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+
+              <div className="p-6 border-t border-white/10 bg-white/[0.02] flex justify-center">
+                <button
+                  onClick={() => setShowFullReport(false)}
+                  className="px-8 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest text-white hover:bg-white/10 transition-all"
+                >
+                  Close Dossier
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
