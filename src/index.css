@@ -1,12 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-cyber-blue: #00f0ff;
+  --color-cyber-purple: #9d00ff;
+  --color-cyber-green: #00ffaa;
+  --color-cyber-red: #ff0055;
+}
+
 body {
-  background-color: #060608;
+  background-color: #020202;
   color: white;
   font-family: 'Outfit', sans-serif;
-  background-image:
-    radial-gradient(circle at 50% -20%, rgba(0, 240, 255, 0.12), transparent 80%),
-    radial-gradient(circle at 100% 100%, rgba(157, 0, 255, 0.05), transparent 50%);
   background-attachment: fixed;
 }
 
@@ -18,83 +22,43 @@ body {
   transition: all 500ms;
 }
 
-.glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background-color: rgba(255, 255, 255, 0.03);
+.animate-grid-flow {
+  animation: grid-flow 20s linear infinite;
 }
 
-/* Instead of @apply, we use shared styles or just repeat them for clarity/simplicity in this file */
-.cyber-card {
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(40px);
-  border-radius: 1rem;
-  transition: all 500ms;
-}
-
-.cyber-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background-color: rgba(255, 255, 255, 0.03);
-}
-
-.cyber-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, transparent, #00f0ff, transparent);
-  opacity: 0;
-  transition: opacity 500ms;
-}
-
-.cyber-card:hover::before {
-  opacity: 1;
-}
-
-.neon-text-blue {
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-}
-
-.scan-animation {
-  position: relative;
-  overflow: hidden;
-}
-
-.scan-animation::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
-  z-index: 10;
-  animation: scan-move 4s linear infinite;
-}
-
-@keyframes scan-move {
-  0% {
-    top: 0%;
-    opacity: 0;
+@keyframes grid-flow {
+  from {
+    background-position: 0 0;
   }
 
-  5% {
-    opacity: 1;
+  to {
+    background-position: 160px 160px;
   }
+}
 
-  95% {
-    opacity: 1;
-  }
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
 
+@keyframes float {
+
+  0%,
   100% {
-    top: 100%;
-    opacity: 0;
+    transform: translateY(0);
   }
+
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+.neon-border-blue {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(0, 240, 255, 0.4);
 }
 
 ::-webkit-scrollbar {
@@ -111,5 +75,5 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 240, 255, 0.4);
+  background: #00f0ff;
 }

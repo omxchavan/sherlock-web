@@ -42,7 +42,7 @@ class SecurityWidget {
                 transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 opacity: 0;
                 transform: translateY(20px);
-                cursor: default;
+                cursor: pointer;
                 user-select: none;
             }
 
@@ -140,7 +140,7 @@ class SecurityWidget {
         this.scoreElement = widget.querySelector('#score-indicator');
         this.statusElement = widget.querySelector('#status-text');
 
-        widget.querySelector('#open-dashboard')?.addEventListener('click', () => {
+        widget.addEventListener('click', () => {
             chrome.runtime.sendMessage({ type: 'OPEN_DASHBOARD' });
         });
 
