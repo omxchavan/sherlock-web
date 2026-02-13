@@ -38,11 +38,14 @@ const Dashboard = () => {
 
   const latestAnalysis = state.threatHistory[0] || null;
 
+  const envKey = import.meta.env.VITE_GEMINI_API_KEY;
+  const hasEnvKey = envKey && envKey !== 'your_api_key_here';
+  const hasApiKey = state.settings.apiKey || (hasEnvKey ? envKey : null);
+
   const generateAI = async () => {
-    const apiKey = state.settings.apiKey || import.meta.env.VITE_GEMINI_API_KEY;
-    if (!latestAnalysis || !apiKey) return;
+    if (!latestAnalysis || !hasApiKey) return;
     setLoadingAi(true);
-    const ai = new AIService(apiKey);
+    const ai = new AIService(hasApiKey);
     const summary = await ai.generateSecuritySummary(latestAnalysis);
     setAiSummary(summary);
     setLoadingAi(false);
@@ -74,7 +77,7 @@ const Dashboard = () => {
             }}
             className="px-4 py-2 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm"
           >
-            {state.settings.apiKey ? 'Update API Key' : 'Set API Key'}
+            {state.settings.apiKey ? 'Update API Key' : hasApiKey ? 'API Key Configured' : 'Set API Key'}
           </button>
         </div>
       </div>
@@ -154,7 +157,7 @@ const Dashboard = () => {
                   <p className="text-sm text-gray-500 mb-4">Click to generate a detailed security analysis for your last visited site.</p>
                   <button
                     onClick={generateAI}
-                    disabled={loadingAi || !state.settings.apiKey}
+                    disabled={loadingAi || !hasApiKey}
                     className="w-full py-3 px-4 bg-cyber-green/10 border border-cyber-green/30 text-cyber-green rounded-lg hover:bg-cyber-green hover:text-black transition-all disabled:opacity-50"
                   >
                     {loadingAi ? 'Analyzing...' : 'Generate AI Summary'}

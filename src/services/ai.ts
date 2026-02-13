@@ -13,7 +13,7 @@ export class AIService {
     async generateSecuritySummary(analysis: AnalysisResult): Promise<string> {
         if (!this.genAI) return "AI Summary unavailable: Please set your Gemini API Key in settings.";
 
-        const model = this.genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const model = this.genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         const prompt = `
       As a professional cybersecurity analyst, provide a concise summary of the security risks for the following website:
