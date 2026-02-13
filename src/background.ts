@@ -18,12 +18,21 @@ chrome.webRequest.onBeforeRequest.addListener(
             tabState[details.tabId] = { trackers: new Set(), external: new Set() };
         }
 
-        const url = details.url;
-        const isTracker = TrackerDetector.isTracker(url);
-        // const domain = TrackerDetector.getBaseDomain(url);
+        try {
+            const requestUrl = new URL(details.url);
+            const requestHost = requestUrl.hostname;
 
-        if (isTracker) {
-            tabState[details.tabId].trackers.add(url);
+            // We need to compare with the current tab domain
+            // Since we don't have the tab domain easily here without async, 
+            // we'll store all domains and filter them during the final analysis in onUpdated.
+            // Simplified: Just add every unique domain requested in this tab session.
+            tabState[details.tabId].external.add(requestHost);
+
+            if (TrackerDetector.isTracker(details.url)) {
+                tabState[details.tabId].trackers.add(details.url);
+            }
+        } catch (e) {
+            // Ignore invalid URLs
         }
 
         return undefined;
@@ -47,10 +56,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         const baseAnalysis = RiskEngine.analyzeDomain(url);
         const state = tabState[tabId] || { trackers: new Set(), external: new Set() };
 
+        // Filter out the current domain from external requests to get true 3rd-party count
+        const externalCount = Array.from(state.external).filter(d => d !== domain && d !== 'localhost').length;
+
         const factors: RiskFactors = {
             connection: url.startsWith('https') ? 0 : 40,
             privacy: Math.min(Math.max(0, state.trackers.size - 3) * 5, 100),
-            network: Math.min(Math.max(0, state.external.size - 10) * 1, 100),
+            network: Math.min(Math.max(0, externalCount - 5) * 5, 100),
             domain: baseAnalysis.score
         };
 
@@ -64,7 +76,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             status: RiskEngine.getStatus(finalScore),
             factors,
             trackersCount: state.trackers.size,
-            externalDomainsCount: state.external.size,
+            externalDomainsCount: externalCount,
             timestamp: Date.now(),
             issues: baseAnalysis.issues
         };
@@ -76,6 +88,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             const filteredHistory = history.filter((h: AnalysisResult) => h.url !== url);
             const newHistory = [result, ...filteredHistory].slice(0, 50);
             chrome.storage.local.set({ threatHistory: newHistory });
+        });
+
+        // Push result to the content script for the floating widget
+        chrome.tabs.sendMessage(tabId, {
+            type: 'ANALYSIS_UPDATE',
+            payload: result
+        }).catch(() => {
+            // Content script might not be ready yet, that's fine
         });
 
         // Reset tab state after full scan
@@ -93,5 +113,9 @@ chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'SECURITY_ALERT') {
         console.warn('Security Alert received:', message.payload);
         // You could show a notification here if needed
+    }
+
+    if (message.type === 'OPEN_DASHBOARD') {
+        chrome.tabs.create({ url: 'index.html' });
     }
 });

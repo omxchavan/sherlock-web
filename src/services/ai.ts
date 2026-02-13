@@ -16,14 +16,28 @@ export class AIService {
         const model = this.genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         const prompt = `
-      As a professional cybersecurity analyst, provide a concise summary of the security risks for the following website:
+      As a professional cybersecurity analyst, provide a structured security report for the following website:
       Domain: ${analysis.domain}
-      Security Score: ${analysis.score}/100 (Higher is more dangerous)
-      Issues found: ${analysis.issues.join(', ')}
-      Trackers detected: ${analysis.trackersCount}
-      Third-party domains: ${analysis.externalDomainsCount}
+      Current System Score: ${analysis.score}/100
+      Issues detected: ${analysis.issues.join(', ')}
+      Trackers: ${analysis.trackersCount}
+      External Requests: ${analysis.externalDomainsCount}
 
-      Provide a 3-sentence professional explanation of the risk and one recommendation for the user.
+      Format the response exactly with these headers:
+      [SECURITY SCORE]
+      Provide a justification for the final score (0-100).
+
+      [POTENTIAL RISKS]
+      List the most critical risks found (bullet points).
+
+      [THREAT ANALYSIS]
+      Explain WHY these factors constitute a threat to the user.
+
+      [AVOIDANCE STRATEGY]
+      Provide specific actions the user can take to avoid these risks.
+
+      [SITE INFORMATION]
+      Brief professional summary of the site's nature and reputation.
     `;
 
         try {

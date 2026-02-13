@@ -9,16 +9,22 @@ export default {
     extend: {
       colors: {
         cyber: {
-          black: "#0a0a0c",
-          dark: "#121214",
+          black: "#060608",
+          dark: "#0a0a0c",
           blue: "#00f0ff",
           purple: "#9d00ff",
-          red: "#ff0055",
+          red: "#ff2d55",
           green: "#00ff9d",
         }
       },
       backgroundImage: {
-        'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+        'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
+      },
+      fontFamily: {
+        outfit: ['Outfit', 'sans-serif'],
+      },
+      animation: {
+        'spin-slow': 'spin 8s linear infinite',
       }
     },
   },

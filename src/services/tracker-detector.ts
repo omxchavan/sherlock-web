@@ -14,7 +14,21 @@ export const COMMON_TRACKERS = [
     'taboola.com',
     'outbrain.com',
     'mixpanel.com',
-    'segment.io'
+    'segment.io',
+    'analytics.google.com',
+    'connect.facebook.net',
+    'static.ads-twitter.com',
+    'pixel.wp.com',
+    'bat.bing.com',
+    'mc.yandex.ru',
+    'drift.com',
+    'intercom.io',
+    'clarity.ms',
+    'newrelic.com',
+    'datadoghq.com',
+    'crazyegg.com',
+    'piwik.pro',
+    'matomo.org'
 ];
 
 export class TrackerDetector {
