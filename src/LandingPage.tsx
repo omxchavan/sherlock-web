@@ -210,11 +210,11 @@ const LandingPage = () => {
                             Install
                         </motion.a>
                         <motion.a
-                            href="/dashboard.html"
+                            href="https://github.com/omxchavan/sherlock-web"
                             className="flex items-center gap-2 px-6 py-2.5 bg-cyan-400 text-black rounded-xl text-sm font-bold transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:scale-105 active:scale-95"
                         >
                             <Zap className="w-4 h-4" />
-                            Launch Dashboard
+                            github
                         </motion.a>
                     </div>
                 </div>
