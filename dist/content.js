@@ -1,4 +1,6 @@
-var i=Object.defineProperty;var o=(s,t,e)=>t in s?i(s,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):s[t]=e;var a=(s,t,e)=>o(s,typeof t!="symbol"?t+"":t,e);class r{constructor(){a(this,"container",null);a(this,"shadow",null);a(this,"scoreElement",null);a(this,"statusElement",null);this.injectWidget(),this.setupListeners()}injectWidget(){this.container=document.createElement("div"),this.container.id="secureweb-ai-widget-root",this.shadow=this.container.attachShadow({mode:"closed"});const t=document.createElement("style");t.textContent=`
+var i = Object.defineProperty; var o = (s, t, e) => t in s ? i(s, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : s[t] = e; var a = (s, t, e) => o(s, typeof t != "symbol" ? t + "" : t, e); class r {
+    constructor() { a(this, "container", null); a(this, "shadow", null); a(this, "scoreElement", null); a(this, "statusElement", null); this.injectWidget(), this.setupListeners() } injectWidget() {
+        this.container = document.createElement("div"), this.container.id = "secureweb-ai-widget-root", this.shadow = this.container.attachShadow({ mode: "closed" }); const t = document.createElement("style"); t.textContent = `
             :host {
                 position: fixed;
                 bottom: 24px;
@@ -97,10 +99,10 @@ var i=Object.defineProperty;var o=(s,t,e)=>t in s?i(s,t,{enumerable:!0,configura
             .status-danger { color: #ff2d55; text-shadow: 0 0 8px rgba(255, 45, 85, 0.4); }
 
             svg { width: 18px; height: 18px; }
-        `;const e=document.createElement("div");e.className="widget",e.innerHTML=`
+        `; const e = document.createElement("div"); e.className = "widget", e.innerHTML = `
             <div class="score-container" id="score-indicator">--%</div>
             <div class="info">
-                <span class="label">SecureWeb AI</span>
+                <span class="label">SherlockWeb AI</span>
                 <span class="value" id="status-text">INITIALIZING...</span>
             </div>
             <button class="dashboard-btn" id="open-dashboard" title="Open Dashboard">
@@ -111,4 +113,6 @@ var i=Object.defineProperty;var o=(s,t,e)=>t in s?i(s,t,{enumerable:!0,configura
                     <rect x="3" y="14" width="7" height="7"></rect>
                 </svg>
             </button>
-        `,this.scoreElement=e.querySelector("#score-indicator"),this.statusElement=e.querySelector("#status-text"),e.addEventListener("click",()=>{chrome.runtime.sendMessage({type:"OPEN_DASHBOARD"})}),this.shadow.appendChild(t),this.shadow.appendChild(e),document.documentElement.appendChild(this.container),setTimeout(()=>e.classList.add("visible"),100)}setupListeners(){chrome.runtime.onMessage.addListener(t=>{t.type==="ANALYSIS_UPDATE"&&this.updateUI(t.payload)})}updateUI(t){!this.scoreElement||!this.statusElement||(this.scoreElement.textContent=`${t.score}%`,this.statusElement.textContent=t.status,this.statusElement.className="value",t.status==="SAFE"?this.statusElement.classList.add("status-safe"):t.status==="WARNING"?this.statusElement.classList.add("status-warning"):t.status==="DANGEROUS"&&this.statusElement.classList.add("status-danger"),this.scoreElement.animate([{transform:"scale(1)",opacity:1},{transform:"scale(1.15)",opacity:.8},{transform:"scale(1)",opacity:1}],{duration:400,easing:"ease-out"}))}}typeof window<"u"&&new r;
+        `, this.scoreElement = e.querySelector("#score-indicator"), this.statusElement = e.querySelector("#status-text"), e.addEventListener("click", () => { chrome.runtime.sendMessage({ type: "OPEN_DASHBOARD" }) }), this.shadow.appendChild(t), this.shadow.appendChild(e), document.documentElement.appendChild(this.container), setTimeout(() => e.classList.add("visible"), 100)
+    } setupListeners() { chrome.runtime.onMessage.addListener(t => { t.type === "ANALYSIS_UPDATE" && this.updateUI(t.payload) }) } updateUI(t) { !this.scoreElement || !this.statusElement || (this.scoreElement.textContent = `${t.score}%`, this.statusElement.textContent = t.status, this.statusElement.className = "value", t.status === "SAFE" ? this.statusElement.classList.add("status-safe") : t.status === "WARNING" ? this.statusElement.classList.add("status-warning") : t.status === "DANGEROUS" && this.statusElement.classList.add("status-danger"), this.scoreElement.animate([{ transform: "scale(1)", opacity: 1 }, { transform: "scale(1.15)", opacity: .8 }, { transform: "scale(1)", opacity: 1 }], { duration: 400, easing: "ease-out" })) }
+} typeof window < "u" && new r;

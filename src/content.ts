@@ -1,4 +1,4 @@
-// SecureWeb AI - Content Script
+// SherlockWeb AI - Content Script
 import type { AnalysisResult } from './shared/types';
 
 class SecurityWidget {
@@ -124,7 +124,7 @@ class SecurityWidget {
         widget.innerHTML = `
             <div class="score-container" id="score-indicator">--%</div>
             <div class="info">
-                <span class="label">SecureWeb AI</span>
+                <span class="label">SherlockWeb AI</span>
                 <span class="value" id="status-text">INITIALIZING...</span>
             </div>
             <button class="dashboard-btn" id="open-dashboard" title="Open Dashboard">

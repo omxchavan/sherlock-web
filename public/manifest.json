@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "SecureWeb AI",
+  "name": "SherlockWeb AI",
   "version": "1.0.0",
   "description": "Professional web security and privacy analyzer using Gemini AI.",
   "permissions": [
@@ -14,7 +14,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "SecureWeb AI"
+    "default_title": "SherlockWeb AI"
   },
   "options_page": "dashboard.html",
   "background": {

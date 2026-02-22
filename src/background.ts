@@ -6,7 +6,7 @@ const tabState: Record<number, { trackers: Set<string>; external: Set<string> }>
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.set({ threatHistory: [] });
-    console.log('SecureWeb AI initialized');
+    console.log('SherlockWeb AI initialized');
 });
 
 // Listener for network requests to track trackers and external domains
@@ -45,12 +45,12 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     // Reset state on new navigation start to avoid leak
     if (changeInfo.status === 'loading') {
         tabState[tabId] = { trackers: new Set(), external: new Set() };
-        console.log(`[SecureWeb AI] Tab ${tabId} loading, resetting state.`);
+        console.log(`[SherlockWeb AI] Tab ${tabId} loading, resetting state.`);
     }
 
     if (changeInfo.status === 'complete' && tab.url && !tab.url.startsWith('chrome:') && !tab.url.startsWith('chrome-extension:')) {
         const url = tab.url;
-        console.log(`[SecureWeb AI] Analyzing: ${url}`);
+        console.log(`[SherlockWeb AI] Analyzing: ${url}`);
         const domain = new URL(url).hostname;
 
         const baseAnalysis = RiskEngine.analyzeDomain(url);
@@ -67,7 +67,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         };
 
         const finalScore = RiskEngine.calculateScore(factors);
-        console.log(`[SecureWeb AI] Final Score for ${domain}: ${finalScore}`, factors);
+        console.log(`[SherlockWeb AI] Final Score for ${domain}: ${finalScore}`, factors);
 
         const result: AnalysisResult = {
             url,

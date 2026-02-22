@@ -62,12 +62,12 @@ const LandingPage = () => {
         },
         {
             title: 'Load Extension',
-            desc: 'Click "Load unpacked" and select the "dist" folder from extracted source.',
+            desc: 'Click "Load unpacked" and select the pre-built "dist" folder from the extracted files.',
             action: 'Browse Files'
         },
         {
             title: 'Start Protecting',
-            desc: 'Pin SecureWeb AI to your toolbar and start browsing securely.',
+            desc: 'Pin SherlockWeb AI to your toolbar and start browsing securely.',
             action: 'Complete'
         }
     ]
@@ -172,7 +172,7 @@ const LandingPage = () => {
             >
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <motion.a
-                        href="/dashboard.html"
+                        href="/landing.html"
                         className="flex items-center gap-3 group"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -190,7 +190,7 @@ const LandingPage = () => {
                             />
                         </motion.div>
                         <span className="text-xl font-black tracking-tight">
-                            Secure<span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Web</span>
+                            Sherlock<span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Web</span>
                         </span>
                     </motion.a>
 
@@ -377,7 +377,7 @@ const LandingPage = () => {
                                 <div className="aspect-video relative overflow-hidden bg-black">
                                     <img
                                         src="/preview.png"
-                                        alt="SecureWeb Dashboard"
+                                        alt="SherlockWeDashboard"
                                         className="w-full h-full object-cover"
                                     />
 
@@ -717,7 +717,7 @@ const LandingPage = () => {
                         >
                             <Shield className="w-6 h-6 text-cyan-400" />
                             <span className="font-bold text-gray-400">
-                                SecureWeb AI © 2026
+                                SherlockWeb AI © 2026
                             </span>
                         </motion.div>
 

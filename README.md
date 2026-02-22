@@ -1,6 +1,11 @@
-# SecureWeb AI — Chrome Extension
+# SherlockWeb AI — Chrome Extension
 
-**SecureWeb AI** is a professional, privacy-focused browser security extension that analyzes websites in real time and provides a security risk score, privacy insights, and AI-generated explanations using **Google Gemini**.
+
+## 🚀 Get SherlockWeb AI
+
+👉 **[Install on Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/secureweb-ai/lekpjobnlmeaopfncpbefomkfnoobihc)**
+
+**SherlockWeb AI** is a professional, privacy-focused browser security extension that analyzes websites in real time and provides a security risk score, privacy insights, and AI-generated explanations using **Google Gemini**.
 
 It helps users understand:
 
@@ -171,7 +176,7 @@ The extension should now appear in your browser.
 ## Usage
 
 1. Open any website
-2. Click the **SecureWeb AI** icon
+2. Click the **SherlockWeb AI** icon
 3. View:
 
    * Risk score
@@ -230,7 +235,7 @@ npm run preview  # Preview production build
 
 ## Disclaimer
 
-SecureWeb AI provides risk analysis based on heuristic and behavioral indicators. It should not be considered a replacement for professional security software.
+SherlockWeb AI provides risk analysis based on heuristic and behavioral indicators. It should not be considered a replacement for professional security software.
 
 ---
 
